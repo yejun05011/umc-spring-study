@@ -22,7 +22,7 @@ public class MemberRestController {
 
     @PostMapping("/signup")
     public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@RequestBody @Valid MemberRequestDTO.JoinDTO request) {
-        Member member = memberCommandService.joinMember(request);
+        Member member = memberCommandService.JoinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
     }
 
