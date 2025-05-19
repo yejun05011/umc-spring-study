@@ -1,5 +1,8 @@
 package umc.spring.web.controller;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +21,10 @@ public class StoreRestController {
     private final StoreCommandService storeCommandService;
 
     @PostMapping("/{regionId}/stores")
-    public ApiResponse<StoreResponseDTO> createStore(@PathVariable Long regionId, @RequestBody @Valid StoreRequestDTO.CreateDTO request) {
+    public ApiResponse<StoreResponseDTO> createStore(
+            @Parameter(name = "regionId", in = ParameterIn.PATH, description = "지역 ID") @PathVariable Long regionId,
+            @RequestBody @Valid StoreRequestDTO.CreateDTO request
+    ) {
         Store store = storeCommandService.createStore(regionId, request);
         return ApiResponse.onSuccess(StoreConverter.toStoreResponse(store));
     }

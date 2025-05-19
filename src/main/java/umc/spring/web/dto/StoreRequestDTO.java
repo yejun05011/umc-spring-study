@@ -13,5 +13,7 @@ public class StoreRequestDTO {
 
         @NotBlank
         private String address;
+
+        private Float score;
     }
 }
