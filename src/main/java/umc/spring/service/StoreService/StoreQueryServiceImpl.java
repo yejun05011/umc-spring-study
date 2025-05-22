@@ -41,7 +41,7 @@ public class StoreQueryServiceImpl implements StoreQueryService{
 
         Store store = storeRepository.findById(StoreId).get();
 
-        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page - 1, 10));
         return StorePage;
     }
 }

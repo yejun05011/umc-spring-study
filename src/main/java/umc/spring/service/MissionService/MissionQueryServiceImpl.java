@@ -17,7 +17,7 @@ public class MissionQueryServiceImpl implements MissionQueryService {
 
     @Override
     public Page<Mission> getMissionListByStore(Store store, int page) {
-        return missionRepository.findAllByStore(store, PageRequest.of(page, 10));
+        return missionRepository.findAllByStore(store, PageRequest.of(page - 1, 10));
     }
 }
 
