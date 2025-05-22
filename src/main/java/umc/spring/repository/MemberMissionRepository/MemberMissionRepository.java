@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.MemberMission;
 
-public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
+import java.util.Optional;
 
+public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
     boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
+
+    Optional<MemberMission> findByMemberIdAndMissionId(Long memberId, Long missionId);
 
     Page<MemberMission> findAllByMemberIdAndStatus(Long memberId, MissionStatus status, Pageable pageable);
 }

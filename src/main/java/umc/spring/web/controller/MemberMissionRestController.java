@@ -9,6 +9,7 @@ import umc.spring.domain.mapping.MemberMission;
 import umc.spring.service.MemberMissionService.MemberMissionQueryService;
 import umc.spring.service.MemberMissionService.MemberMissionService;
 import umc.spring.validation.annotation.NotChallengingAlready;
+import umc.spring.validation.annotation.NotCompletedAlready;
 import umc.spring.validation.annotation.ValidPage;
 import umc.spring.web.dto.MissionResponseDTO;
 
@@ -18,14 +19,20 @@ import umc.spring.web.dto.MissionResponseDTO;
 public class MemberMissionRestController {
 
     private final MemberMissionService memberMissionService;
-
     private final MemberMissionQueryService memberMissionQueryService;
 
     @PostMapping("/{missionId}/challenge")
-    public ApiResponse<String> challengeMission(@PathVariable @NotChallengingAlready Long missionId) {
+    public ApiResponse<String> challengeMission(@PathVariable(name = "missionId") @NotChallengingAlready Long missionId) {
         memberMissionService.challengeMission(missionId);
         return ApiResponse.onSuccess("도전 완료!");
     }
+
+    @PatchMapping("/{missionId}/complete")
+    public ApiResponse<String> completeMission(@PathVariable @NotCompletedAlready Long missionId) {
+        memberMissionService.completeMission(missionId);
+        return ApiResponse.onSuccess("미션 완료 처리 완료!");
+    }
+
 
     @GetMapping("/members/me/missions")
     public ApiResponse<MissionResponseDTO.MissionPreviewListDTO> getMyChallengingMissions(@ValidPage @RequestParam("page") Integer page) {

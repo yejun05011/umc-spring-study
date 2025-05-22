@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import umc.spring.domain.enums.MissionStatus;
 import umc.spring.repository.MemberMissionRepository.MemberMissionRepository;
 import umc.spring.validation.annotation.NotChallengingAlready;
 
@@ -15,7 +16,10 @@ public class NotChallengingAlreadyValidator implements ConstraintValidator<NotCh
 
     @Override
     public boolean isValid(Long missionId, ConstraintValidatorContext context) {
-        Long memberId = 1L; // 하드코딩된 멤버 ID
-        return !memberMissionRepository.existsByMemberIdAndMissionId(memberId, missionId);
+        // 하드코딩, memberId = 1L 기준
+        return memberMissionRepository.findByMemberIdAndMissionId(1L, missionId)
+                .map(mm -> mm.getStatus() != MissionStatus.CHALLENGING)
+                .orElse(true);
     }
 }
+

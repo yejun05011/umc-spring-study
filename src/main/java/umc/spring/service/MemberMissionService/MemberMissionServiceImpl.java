@@ -33,4 +33,14 @@ public class MemberMissionServiceImpl implements MemberMissionService {
 
         memberMissionRepository.save(memberMission);
     }
+
+    @Override
+    @Transactional
+    public void completeMission(Long missionId) {
+        Member member = memberRepository.findById(1L).orElseThrow(); // 하드코딩된 멤버
+        MemberMission memberMission = memberMissionRepository.findByMemberIdAndMissionId(member.getId(), missionId)
+                .orElseThrow();
+
+        memberMission.changeStatus(MissionStatus.COMPLETE);
+    }
 }
