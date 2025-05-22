@@ -3,6 +3,7 @@ package umc.spring.converter;
 import org.springframework.data.domain.Page;
 import umc.spring.domain.Mission;
 import umc.spring.domain.Store;
+import umc.spring.domain.mapping.MemberMission;
 import umc.spring.web.dto.MissionRequestDTO;
 import umc.spring.web.dto.MissionResponseDTO;
 
@@ -37,7 +38,7 @@ public class MissionConverter {
         );
     }
 
-    public static MissionResponseDTO.MissionPreviewListDTO toPreviewListDTO(Page<Mission> missions) {
+    public static MissionResponseDTO.MissionPreviewListDTO toMissionPreviewListDTO(Page<Mission> missions) {
         List<MissionResponseDTO.MissionPreviewDTO> list = missions.stream()
                 .map(MissionConverter::toPreviewDTO)
                 .toList();
@@ -52,4 +53,23 @@ public class MissionConverter {
         );
     }
 
+    public static MissionResponseDTO.MissionPreviewListDTO toMemberMissionPreviewListDTO(Page<MemberMission> page) {
+        List<MissionResponseDTO.MissionPreviewDTO> list = page.getContent().stream()
+                .map(mm -> new MissionResponseDTO.MissionPreviewDTO(
+                        mm.getMission().getId(),
+                        mm.getMission().getMissionSpec(),
+                        mm.getMission().getReward(),
+                        mm.getMission().getStore().getName(),
+                        mm.getMission().getDeadline()
+                )).toList();
+
+        return new MissionResponseDTO.MissionPreviewListDTO(
+                list,
+                list.size(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.isFirst(),
+                page.isLast()
+        );
+    }
 }

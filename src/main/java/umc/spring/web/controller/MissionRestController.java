@@ -41,6 +41,6 @@ public class MissionRestController {
                 .orElseThrow(() -> new RuntimeException("Store not found"));
 
         Page<Mission> missionPage = missionQueryService.getMissionListByStore(store, page);
-        return ApiResponse.onSuccess(MissionConverter.toPreviewListDTO(missionPage));
+        return ApiResponse.onSuccess(MissionConverter.toMissionPreviewListDTO(missionPage));
     }
 }
